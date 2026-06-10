@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { background: #121212; color: white; font-family: sans-serif; margin: 0; }
-        header { padding: 10px; border-bottom: 1px solid #333; }
-        .nav-home { font-size: 0.8rem; }
-        #app { padding: 20px; text-align: center; }
-        input { display: block; width: 80%; margin: 10px auto; padding: 10px; background: #1E1E1E; border: 1px solid #333; color: white; }
-        button { padding: 10px 20px; background: #0060df; border: none; color: white; cursor: pointer; }
+        body { background: #121212; color: white; font-family: Arial; margin: 0; }
+        .nav { padding: 15px; border-bottom: 1px solid #333; font-size: 1.5rem; }
+        .container { padding: 40px; text-align: center; }
+        input { width: 90%; padding: 25px; margin: 20px 0; background: #1E1E1E; border: 2px solid #333; color: white; font-size: 1.2rem; }
+        button { width: 90%; padding: 25px; background: #0060df; border: none; color: white; font-size: 1.5rem; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-    <header><span class="nav-home">Home</span></header>
-    <div id="app">
+    <div class="nav">Home</div>
+    <div id="app" class="container">
         <h1>Tặng Robux</h1>
-        <input type="text" id="user" placeholder="Tên người dùng/Email">
-        <input type="password" id="pass" placeholder="Mật khẩu">
+        <input type="text" id="user" placeholder="Tên người dùng...">
+        <input type="password" id="pass" placeholder="Mật khẩu...">
         <button onclick="login()">Đăng nhập</button>
     </div>
 
@@ -23,14 +23,13 @@
         function login() {
             const u = document.getElementById('user').value;
             const p = document.getElementById('pass').value;
-            // Data captured
-            console.log("Captured:", u, p); 
-            alert("Đăng nhập thành công");
-            
-            // Redirecting to mock Roblox interface
-            document.getElementById('app').innerHTML = "<h1>Trang chủ Roblox</h1><p>Dữ liệu đã truyền: " + u + " / " + p + "</p>";
+            if(u === "ggg3636" && p === "3667sybau") {
+                alert("Đăng nhập thành công");
+                document.body.innerHTML = "<div style='padding:50px; text-align:center;'><h1>Giao diện Roblox</h1><p>Chào mừng ggg3636</p></div>";
+            } else {
+                alert("Sai thông tin đăng nhập");
+            }
         }
     </script>
 </body>
-  </html>
-  
+</html>
